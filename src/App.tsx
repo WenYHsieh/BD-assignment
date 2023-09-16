@@ -1,34 +1,72 @@
+import { Link } from 'react-router-dom';
+import './app.scss';
+import { Autocomplete, Button, Chip, Divider, TextField } from '@mui/material';
 import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '../public/vite.svg';
-import './App.css';
+import selectData from './data/selectData.json';
 
 function App() {
-  const [count, setCount] = useState(0);
+  const countryOptions = Object.keys(selectData);
+  const yearOptions = [
+    '103',
+    '104',
+    '105',
+    '106',
+    '107',
+    '108',
+    '109',
+    '110',
+    '111',
+  ];
+  const [isLoading, setIsLoading] = useState(false);
+  const [value, setValue] = useState<string | null>(null);
+
+  const townOptions =
+    value === null
+      ? []
+      : (selectData as { [key: string]: Array<string> })[value];
 
   return (
-    <>
-      <div>
-        <a href='https://vitejs.dev' target='_blank'>
-          <img src={viteLogo} className='logo' alt='Vite logo' />
-        </a>
-        <a href='https://react.dev' target='_blank'>
-          <img src={reactLogo} className='logo react' alt='React logo' />
-        </a>
+    <div className='app__wrapper'>
+      <nav>
+        <Link to='/'>LOGO</Link>
+      </nav>
+      <div className='dashboard'>
+        <h1>人口數、戶數按戶別及性別統計</h1>
+        <form>
+          <Autocomplete
+            disablePortal
+            id='year'
+            options={yearOptions}
+            sx={{ width: 100 }}
+            renderInput={(params) => <TextField {...params} label='年份' />}
+          />
+          <Autocomplete
+            disablePortal
+            id='country'
+            options={countryOptions}
+            sx={{ width: 200 }}
+            onChange={(_, value) => setValue(value)}
+            renderInput={(params) => <TextField {...params} label='縣/市' />}
+          />
+          <Autocomplete
+            disablePortal
+            id='town'
+            options={townOptions}
+            sx={{ width: 200 }}
+            renderInput={(params) => <TextField {...params} label='區' />}
+          />
+          <Button variant='contained' disabled={isLoading}>
+            SUBMIT
+          </Button>
+        </form>
+
+        <Divider>
+          <Chip label='搜尋結果' />
+        </Divider>
       </div>
-      <h1>Vite + React</h1>
-      <div className='card'>
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className='read-the-docs'>
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+
+      <p className='sideLogo'>T A I W A N</p>
+    </div>
   );
 }
 
