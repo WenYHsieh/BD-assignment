@@ -1,10 +1,22 @@
 import { Link } from 'react-router-dom';
 import './app.scss';
 import { Autocomplete, Button, Chip, Divider, TextField } from '@mui/material';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import selectData from './data/selectData.json';
 
+type FormData = {
+  year: null | string;
+  country: null | string;
+  town: null | string;
+};
 function App() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [formData, setFormData] = useState<FormData>({
+    year: null,
+    country: null,
+    town: null,
+  });
+
   const countryOptions = Object.keys(selectData);
   const yearOptions = [
     '103',
@@ -17,14 +29,18 @@ function App() {
     '110',
     '111',
   ];
-  const [isLoading, setIsLoading] = useState(false);
-  const [value, setValue] = useState<string | null>(null);
 
-  const townOptions =
-    value === null
-      ? []
-      : (selectData as { [key: string]: Array<string> })[value];
+  const townOptions = useMemo(() => {
+    const { country } = formData;
+    if (country === null) return [];
+    return (selectData as { [key: string]: Array<string> })[country];
+  }, [formData?.country]);
 
+  const isValidForm = useMemo(() => {
+    const { year, country, town } = formData;
+    return year && country && town;
+  }, [formData]);
+  console.log(formData);
   return (
     <div className='app__wrapper'>
       <nav>
@@ -37,31 +53,75 @@ function App() {
             disablePortal
             id='year'
             options={yearOptions}
-            sx={{ width: 100 }}
+            sx={{ width: 100, marginRight: '16px' }}
+            value={formData?.year}
+            onChange={(_, value) =>
+              setFormData((formData) => {
+                return { ...formData, year: value };
+              })
+            }
+            inputValue={formData?.year ?? ''}
+            onInputChange={(_, newInputValue) => {
+              setFormData((formData) => {
+                return { ...formData, year: newInputValue };
+              });
+            }}
             renderInput={(params) => <TextField {...params} label='年份' />}
           />
           <Autocomplete
             disablePortal
             id='country'
             options={countryOptions}
-            sx={{ width: 200 }}
-            onChange={(_, value) => setValue(value)}
+            sx={{ width: 200, marginRight: '16px' }}
+            value={formData?.country}
+            onChange={(_, value) =>
+              setFormData((formData) => {
+                return { ...formData, country: value, town: null };
+              })
+            }
+            inputValue={formData?.country ?? ''}
+            onInputChange={(_, newInputValue) => {
+              setFormData((formData) => {
+                return { ...formData, country: newInputValue, town: null };
+              });
+            }}
             renderInput={(params) => <TextField {...params} label='縣/市' />}
           />
           <Autocomplete
             disablePortal
             id='town'
             options={townOptions}
-            sx={{ width: 200 }}
+            sx={{ width: 200, marginRight: '16px' }}
+            value={formData?.town}
+            onChange={(_, value) =>
+              setFormData((formData) => {
+                return { ...formData, town: value };
+              })
+            }
+            inputValue={formData?.town ?? ''}
+            onInputChange={(_, newInputValue) => {
+              setFormData((formData) => {
+                return { ...formData, town: newInputValue };
+              });
+            }}
+            disabled={!formData?.country}
             renderInput={(params) => <TextField {...params} label='區' />}
           />
-          <Button variant='contained' disabled={isLoading}>
+          <Button variant='contained' disabled={isLoading || !isValidForm}>
             SUBMIT
           </Button>
         </form>
 
-        <Divider>
-          <Chip label='搜尋結果' />
+        <Divider sx={{ margin: '30px', borderColor: '#d1b7ff' }}>
+          <Chip
+            label='搜尋結果'
+            sx={{
+              background: 'none',
+              border: 1,
+              borderColor: '#d1b7ff',
+              color: '#d1b7ff',
+            }}
+          />
         </Divider>
       </div>
 

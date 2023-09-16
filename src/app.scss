@@ -50,5 +50,11 @@
     position: absolute;
     right: 0;
     border: 1px solid red;
+
+    form {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
   }
 }
