@@ -3,16 +3,19 @@ import ReactDOM from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import Chart from './Chart.tsx';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
+    children: [
+      {
+        path: '/:year/:country/:town',
+        element: <Chart />,
+      },
+    ],
   },
-  // {
-  //   path: "contacts/:contactId",
-  //   element: <Contact />,
-  // },
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

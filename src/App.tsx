@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 import './app.scss';
 import { Autocomplete, Button, Chip, Divider, TextField } from '@mui/material';
 import { useMemo, useState } from 'react';
@@ -16,6 +16,7 @@ function App() {
     country: null,
     town: null,
   });
+  const navigate = useNavigate();
 
   const countryOptions = Object.keys(selectData);
   const yearOptions = [
@@ -40,7 +41,13 @@ function App() {
     const { year, country, town } = formData;
     return year && country && town;
   }, [formData]);
-  console.log(formData);
+
+  const handleSubmit = () => {
+    const { year, country, town } = formData;
+
+    navigate(`${year}/${country}/${town}`);
+  };
+
   return (
     <div className='app__wrapper'>
       <nav>
@@ -107,7 +114,12 @@ function App() {
             disabled={!formData?.country}
             renderInput={(params) => <TextField {...params} label='區' />}
           />
-          <Button variant='contained' disabled={isLoading || !isValidForm}>
+          <Button
+            variant='contained'
+            disabled={isLoading || !isValidForm}
+            onClick={handleSubmit}
+            sx={{ backgroundColor: '#6520ff' }}
+          >
             SUBMIT
           </Button>
         </form>
@@ -123,6 +135,7 @@ function App() {
             }}
           />
         </Divider>
+        <Outlet />
       </div>
 
       <p className='sideLogo'>T A I W A N</p>
