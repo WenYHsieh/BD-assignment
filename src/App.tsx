@@ -19,17 +19,7 @@ function App() {
   const navigate = useNavigate();
 
   const countryOptions = Object.keys(selectData);
-  const yearOptions = [
-    '103',
-    '104',
-    '105',
-    '106',
-    '107',
-    '108',
-    '109',
-    '110',
-    '111',
-  ];
+  const yearOptions = ['106', '107', '108', '109', '110', '111'];
 
   const townOptions = useMemo(() => {
     const { country } = formData;
