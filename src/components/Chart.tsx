@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-import { useLoading } from './App';
+import { useLoading } from '../App';
 
 const Chart = () => {
   /**
@@ -31,6 +31,7 @@ const Chart = () => {
       type: 'category',
       title: {
         text: '型態',
+        style: { fontWeight: 'bold' },
       },
       categories: ['共同生活', '獨立居住'],
     },
@@ -38,6 +39,19 @@ const Chart = () => {
       allowDecimals: false,
       title: {
         text: '數量',
+        align: 'high',
+        offset: 0,
+        rotation: 0,
+        x: -15,
+        y: -20,
+        style: { fontWeight: 'bold' },
+      },
+    },
+    plotOptions: {
+      column: {
+        dataLabels: {
+          enabled: true,
+        },
       },
     },
     series: [],
@@ -209,8 +223,7 @@ const Chart = () => {
         setIsLoading(false);
       }
     };
-    // 已有資料，直接篩選。
-    // 沒的話要 call api 去拿
+
     chartData[year] ? filterMatchData(chartData[year]) : getDataByYear();
   }, [year, country, town]);
 
