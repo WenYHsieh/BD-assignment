@@ -28,9 +28,9 @@ const Form = ({ isLoading }: { isLoading: boolean }) => {
       backgroundColor: 'white',
     },
     button: {
-      backgroundColor: '#6520ff',
+      backgroundColor: '#651fff',
       ':hover': {
-        backgroundColor: '#6520ff',
+        backgroundColor: '#651fff',
       },
     },
     divider: {
