@@ -1,15 +1,29 @@
-import { Link, Outlet, useNavigate } from 'react-router-dom';
+import {
+  Link,
+  Outlet,
+  useNavigate,
+  useOutletContext,
+  useParams,
+} from 'react-router-dom';
 import './app.scss';
 import { Autocomplete, Button, Chip, Divider, TextField } from '@mui/material';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import selectData from './data/selectData.json';
+import Loader from './components/Loader';
 
 type FormData = {
   year: null | string;
   country: null | string;
   town: null | string;
 };
+
+type ContextType = {
+  isLoading: Boolean;
+  setIsLoading: React.Dispatch<React.SetStateAction<Boolean>>;
+};
+
 function App() {
+  const { year, country, town } = useParams();
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState<FormData>({
     year: null,
@@ -38,8 +52,14 @@ function App() {
     navigate(`${year}/${country}/${town}`);
   };
 
+  useEffect(() => {
+    if (!year || !country || !town) return;
+    setFormData({ year, country, town });
+  }, []);
+
   return (
     <div className='app__wrapper'>
+      {isLoading ? <Loader /> : <></>}
       <nav>
         <Link to='/'>LOGO</Link>
       </nav>
@@ -139,7 +159,7 @@ function App() {
             }}
           />
         </Divider>
-        <Outlet />
+        <Outlet context={{ isLoading, setIsLoading }} />
       </div>
 
       <p className='sideLogo'>T A I W A N</p>
@@ -148,3 +168,7 @@ function App() {
 }
 
 export default App;
+
+export function useLoading() {
+  return useOutletContext<ContextType>();
+}

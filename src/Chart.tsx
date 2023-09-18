@@ -3,18 +3,19 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
+import { useLoading } from './App';
 
 const Chart = () => {
   /**
    * TODO
-   * 1. pie chart
-   * 2. loading
    * 3. rwd
    * 4. component styling
    * 5. api call data type check, error handling
    */
-
+  const baseURL = `https://www.ris.gov.tw/rs-opendata/api/v1/datastore/ODRP019`;
   let { year, country, town } = useParams();
+  const { isLoading, setIsLoading } = useLoading();
+
   const [chartData, setChartData] = useState<{
     [key: string]: Array<{ [key in string]: string }>;
   }>({});
@@ -50,7 +51,6 @@ const Chart = () => {
       type: 'pie',
     },
     colors: ['#a3b1ff', '#626eb2'],
-
     title: {
       text: '戶數統計',
     },
@@ -70,24 +70,8 @@ const Chart = () => {
         showInLegend: true,
       },
     },
-    series: [
-      {
-        name: '比例',
-        colorByPoint: true,
-        data: [
-          {
-            name: '獨立居住',
-            y: 70.67,
-          },
-          {
-            name: '共同生活',
-            y: 14.77,
-          },
-        ],
-      },
-    ],
+    series: [],
   });
-  const baseURL = `https://www.ris.gov.tw/rs-opendata/api/v1/datastore/ODRP019`;
 
   const filterMatchData = (yearData: Array<{ [key: string]: string }>) => {
     const matchData = yearData.filter(
@@ -172,6 +156,7 @@ const Chart = () => {
     if (!year) return;
 
     const getDataByYear = async () => {
+      setIsLoading(true);
       const allPageNum = 4;
       const pageNums = Array.from({ length: allPageNum }, (_, i) => i + 1);
 
@@ -220,6 +205,8 @@ const Chart = () => {
         filterMatchData(yearData);
       } catch (error) {
         console.error(error);
+      } finally {
+        setIsLoading(false);
       }
     };
     // 已有資料，直接篩選。
@@ -229,9 +216,15 @@ const Chart = () => {
 
   return (
     <>
-      <h2>{`${year} 年 ${country} ${town}`}</h2>
-      <HighchartsReact highcharts={Highcharts} options={columnOptions} />
-      <HighchartsReact highcharts={Highcharts} options={pieOptions} />
+      {isLoading ? (
+        <></>
+      ) : (
+        <>
+          <h2>{`${year} 年 ${country} ${town}`}</h2>
+          <HighchartsReact highcharts={Highcharts} options={columnOptions} />
+          <HighchartsReact highcharts={Highcharts} options={pieOptions} />
+        </>
+      )}
     </>
   );
 };
