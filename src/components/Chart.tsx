@@ -16,6 +16,8 @@ const Chart = () => {
   const [columnOptions, setColumnOptions] = useState({
     chart: {
       type: 'column',
+      spacingBottom: 32,
+      backgroundColor: 'transparent',
     },
     colors: ['#7d5fb2', '#c29fff'],
     title: {
@@ -27,7 +29,7 @@ const Chart = () => {
         text: '型態',
         style: { fontWeight: 'bold' },
       },
-      categories: ['共同生活', '獨立居住'],
+      categories: ['共同生活', '獨立生活'],
     },
     yAxis: {
       allowDecimals: false,
@@ -60,8 +62,9 @@ const Chart = () => {
       plotBorderWidth: null,
       plotShadow: false,
       type: 'pie',
+      backgroundColor: 'transparent',
     },
-    colors: ['#a3b1ff', '#626eb2'],
+    colors: ['#626eb2', '#a3b1ff'],
     title: {
       text: '戶數統計',
     },
@@ -150,12 +153,12 @@ const Chart = () => {
             colorByPoint: true,
             data: [
               {
-                name: '獨立居住',
-                y: ordinaryPercentage,
-              },
-              {
                 name: '共同生活',
                 y: singlePercentage,
+              },
+              {
+                name: '獨立生活',
+                y: ordinaryPercentage,
               },
             ],
           },

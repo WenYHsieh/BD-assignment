@@ -21,6 +21,30 @@ const Form = ({ isLoading }: { isLoading: boolean }) => {
 
   const countryOptions = Object.keys(selectData);
   const yearOptions = ['106', '107', '108', '109', '110', '111'];
+  const styles = {
+    autoComplete: {
+      marginRight: '12px',
+      mb: { xs: '16px', sm: 0 },
+      backgroundColor: 'white',
+    },
+    button: {
+      backgroundColor: '#6520ff',
+      ':hover': {
+        backgroundColor: '#6520ff',
+      },
+    },
+    divider: {
+      '&::before, &::after': {
+        borderColor: '#C29FFF',
+      },
+    },
+    chip: {
+      background: 'none',
+      border: 1,
+      borderColor: '#B388FF',
+      color: '#B388FF',
+    },
+  };
 
   const townOptions = useMemo(() => {
     const { country } = formData;
@@ -52,9 +76,8 @@ const Form = ({ isLoading }: { isLoading: boolean }) => {
           id='year'
           options={yearOptions}
           sx={{
-            width: '73px',
-            marginRight: '12px',
-            mb: { xs: '16px', sm: 0 },
+            ...styles.autoComplete,
+            width: '100px',
           }}
           value={formData?.year}
           onChange={(_, value) =>
@@ -76,11 +99,7 @@ const Form = ({ isLoading }: { isLoading: boolean }) => {
           disablePortal
           id='country'
           options={countryOptions}
-          sx={{
-            width: { xs: '100%', sm: '165px' },
-            marginRight: '12px',
-            mb: { xs: '16px', sm: 0 },
-          }}
+          sx={{ ...styles.autoComplete, width: { xs: '100%', sm: '165px' } }}
           value={formData?.country}
           onChange={(_, value) =>
             setFormData((formData) => {
@@ -94,18 +113,22 @@ const Form = ({ isLoading }: { isLoading: boolean }) => {
             });
           }}
           renderInput={(params) => (
-            <TextField {...params} label='縣/市' size='small' />
+            <TextField
+              {...params}
+              label='縣/市'
+              size='small'
+              inputProps={{
+                ...params.inputProps,
+                placeholder: '請選擇 縣/市',
+              }}
+            />
           )}
         />
         <Autocomplete
           disablePortal
           id='town'
           options={townOptions}
-          sx={{
-            width: { xs: '100%', sm: '165px' },
-            marginRight: '12px',
-            mb: { xs: '16px', sm: 0 },
-          }}
+          sx={{ ...styles.autoComplete, width: { xs: '100%', sm: '165px' } }}
           value={formData?.town}
           onChange={(_, value) =>
             setFormData((formData) => {
@@ -120,40 +143,29 @@ const Form = ({ isLoading }: { isLoading: boolean }) => {
           }}
           disabled={!formData?.country}
           renderInput={(params) => (
-            <TextField {...params} label='區' size='small' />
+            <TextField
+              {...params}
+              label='區'
+              size='small'
+              inputProps={{
+                ...params.inputProps,
+                placeholder: '請先選擇 縣/市',
+              }}
+            />
           )}
         />
         <Button
           variant='contained'
           disabled={isLoading || !isValidForm}
           onClick={handleSubmit}
-          sx={{
-            backgroundColor: '#6520ff',
-            ':hover': {
-              backgroundColor: '#6520ff',
-            },
-          }}
+          sx={styles.button}
         >
           SUBMIT
         </Button>
       </form>
 
-      <Divider
-        sx={{
-          '&::before, &::after': {
-            borderColor: '#C29FFF',
-          },
-        }}
-      >
-        <Chip
-          label='搜尋結果'
-          sx={{
-            background: 'none',
-            border: 1,
-            borderColor: '#B388FF',
-            color: '#B388FF',
-          }}
-        />
+      <Divider sx={styles.divider}>
+        <Chip label='搜尋結果' sx={styles.chip} />
       </Divider>
     </>
   );

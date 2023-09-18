@@ -62,8 +62,6 @@
     overflow-y: scroll;
 
     .title {
-      color: #000;
-      font-family: Noto Sans TC;
       font-size: 32px;
       font-style: normal;
       font-weight: 400;
@@ -80,11 +78,8 @@
     }
 
     .chartTitle {
-      font-family: Noto Sans TC;
       font-size: 32px;
-      font-style: normal;
       font-weight: 400;
-      line-height: normal;
       margin: 48px 0;
     }
   }
@@ -99,11 +94,21 @@
     .dashboard {
       width: 100%;
       left: 0;
-      z-index: 100;
+      z-index: 10;
       padding: 0 16px;
+
+      .title {
+        font-size: 25px;
+      }
 
       form {
         flex-direction: column;
+        margin: 32px 0px;
+      }
+
+      .chartTitle {
+        font-size: 25px;
+        margin: 32px 0;
       }
     }
   }
