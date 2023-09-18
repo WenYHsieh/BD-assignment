@@ -233,7 +233,7 @@ const Chart = () => {
         <></>
       ) : (
         <>
-          <h3>{`${year} 年 ${country} ${town}`}</h3>
+          <h2 className='chartTitle'>{`${year} 年 ${country} ${town}`}</h2>
           <HighchartsReact highcharts={Highcharts} options={columnOptions} />
           <HighchartsReact highcharts={Highcharts} options={pieOptions} />
         </>

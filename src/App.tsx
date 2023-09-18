@@ -2,8 +2,8 @@ import { Link, Outlet, useOutletContext } from 'react-router-dom';
 import './app.scss';
 import { useState } from 'react';
 import Loader from './components/Loader';
-import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import Form from './components/Form';
+import SettingIcon from './assets/settingIcon.svg';
 
 type ContextType = {
   isLoading: Boolean;
@@ -18,14 +18,14 @@ function App() {
       {isLoading ? <Loader /> : <></>}
       <nav>
         <Link to='/'>LOGO</Link>
-        <SettingsOutlinedIcon className='settingBtn' />
+        <img src={SettingIcon} className='settingBtn' />
       </nav>
+
+      <p className='sideLogo'>TAIWAN</p>
       <div className='dashboard'>
         <Form isLoading={isLoading} />
         <Outlet context={{ isLoading, setIsLoading }} />
       </div>
-
-      <p className='sideLogo'>T A I W A N</p>
     </div>
   );
 }

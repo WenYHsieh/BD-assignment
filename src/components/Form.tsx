@@ -45,15 +45,15 @@ const Form = ({ isLoading }: { isLoading: boolean }) => {
 
   return (
     <>
-      <h2>人口數、戶數按戶別及性別統計</h2>
+      <h1 className='title'>人口數、戶數按戶別及性別統計</h1>
       <form>
         <Autocomplete
           disablePortal
           id='year'
           options={yearOptions}
           sx={{
-            width: 100,
-            marginRight: '16px',
+            width: '73px',
+            marginRight: '12px',
             mb: { xs: '16px', sm: 0 },
           }}
           value={formData?.year}
@@ -77,8 +77,8 @@ const Form = ({ isLoading }: { isLoading: boolean }) => {
           id='country'
           options={countryOptions}
           sx={{
-            width: { xs: '100%', sm: '200px' },
-            marginRight: '16px',
+            width: { xs: '100%', sm: '165px' },
+            marginRight: '12px',
             mb: { xs: '16px', sm: 0 },
           }}
           value={formData?.country}
@@ -102,8 +102,8 @@ const Form = ({ isLoading }: { isLoading: boolean }) => {
           id='town'
           options={townOptions}
           sx={{
-            width: { xs: '100%', sm: '200px' },
-            marginRight: '16px',
+            width: { xs: '100%', sm: '165px' },
+            marginRight: '12px',
             mb: { xs: '16px', sm: 0 },
           }}
           value={formData?.town}
@@ -138,14 +138,20 @@ const Form = ({ isLoading }: { isLoading: boolean }) => {
         </Button>
       </form>
 
-      <Divider sx={{ margin: '30px', borderColor: '#d1b7ff' }}>
+      <Divider
+        sx={{
+          '&::before, &::after': {
+            borderColor: '#C29FFF',
+          },
+        }}
+      >
         <Chip
           label='搜尋結果'
           sx={{
             background: 'none',
             border: 1,
-            borderColor: '#d1b7ff',
-            color: '#d1b7ff',
+            borderColor: '#B388FF',
+            color: '#B388FF',
           }}
         />
       </Divider>

@@ -11,7 +11,8 @@
 html {
   line-height: 1.15; /* 1 */
   -webkit-text-size-adjust: 100%; /* 2 */
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: 'Ubuntu', sans-serif;
+  overflow-y: hidden;
 }
 
 /* Sections
