@@ -63,13 +63,18 @@ function App() {
                 return { ...formData, year: newInputValue };
               });
             }}
-            renderInput={(params) => <TextField {...params} label='年份' />}
+            renderInput={(params) => (
+              <TextField {...params} label='年份' size='small' />
+            )}
           />
           <Autocomplete
             disablePortal
             id='country'
             options={countryOptions}
-            sx={{ width: 200, marginRight: '16px' }}
+            sx={{
+              width: 200,
+              marginRight: '16px',
+            }}
             value={formData?.country}
             onChange={(_, value) =>
               setFormData((formData) => {
@@ -82,7 +87,9 @@ function App() {
                 return { ...formData, country: newInputValue, town: null };
               });
             }}
-            renderInput={(params) => <TextField {...params} label='縣/市' />}
+            renderInput={(params) => (
+              <TextField {...params} label='縣/市' size='small' />
+            )}
           />
           <Autocomplete
             disablePortal
@@ -102,13 +109,20 @@ function App() {
               });
             }}
             disabled={!formData?.country}
-            renderInput={(params) => <TextField {...params} label='區' />}
+            renderInput={(params) => (
+              <TextField {...params} label='區' size='small' />
+            )}
           />
           <Button
             variant='contained'
             disabled={isLoading || !isValidForm}
             onClick={handleSubmit}
-            sx={{ backgroundColor: '#6520ff' }}
+            sx={{
+              backgroundColor: '#6520ff',
+              ':hover': {
+                backgroundColor: '#6520ff',
+              },
+            }}
           >
             SUBMIT
           </Button>

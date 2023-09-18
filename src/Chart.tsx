@@ -22,6 +22,7 @@ const Chart = () => {
     chart: {
       type: 'column',
     },
+    colors: ['#7d5fb2', '#c29fff'],
     title: {
       text: '人口數統計',
     },
@@ -40,6 +41,52 @@ const Chart = () => {
     },
     series: [],
   });
+
+  const [pieOptions, setPieOptions] = useState({
+    chart: {
+      plotBackgroundColor: null,
+      plotBorderWidth: null,
+      plotShadow: false,
+      type: 'pie',
+    },
+    colors: ['#a3b1ff', '#626eb2'],
+
+    title: {
+      text: '戶數統計',
+    },
+    accessibility: {
+      point: {
+        valueSuffix: '%',
+      },
+    },
+    plotOptions: {
+      pie: {
+        allowPointSelect: true,
+        cursor: 'pointer',
+        dataLabels: {
+          enabled: true,
+          format: '{point.percentage:.2f} %',
+        },
+        showInLegend: true,
+      },
+    },
+    series: [
+      {
+        name: '比例',
+        colorByPoint: true,
+        data: [
+          {
+            name: '獨立居住',
+            y: 70.67,
+          },
+          {
+            name: '共同生活',
+            y: 14.77,
+          },
+        ],
+      },
+    ],
+  });
   const baseURL = `https://www.ris.gov.tw/rs-opendata/api/v1/datastore/ODRP019`;
 
   const filterMatchData = (yearData: Array<{ [key: string]: string }>) => {
@@ -48,23 +95,39 @@ const Chart = () => {
         return dataCountry === country && dataTown === town;
       },
     );
+
+    // column data
     let ordinaryFemaleSum = 0;
     let ordinaryMaleSum = 0;
     let singleFemaleSum = 0;
     let singleMaleSum = 0;
+
+    // pie data
+    let singleTotalSum = 0;
+    let ordinaryTotalSum = 0;
+
     matchData?.forEach(
       ({
         household_ordinary_m,
         household_ordinary_f,
         household_single_m,
         household_single_f,
+        household_ordinary_total,
+        household_single_total,
       }) => {
         ordinaryFemaleSum = ordinaryFemaleSum + parseInt(household_ordinary_f);
         ordinaryMaleSum = ordinaryMaleSum + parseInt(household_ordinary_m);
         singleFemaleSum = singleFemaleSum + parseInt(household_single_f);
         singleMaleSum = singleMaleSum + parseInt(household_single_m);
+        singleTotalSum = singleTotalSum + parseInt(household_single_total);
+        ordinaryTotalSum =
+          ordinaryTotalSum + parseInt(household_ordinary_total);
       },
     );
+
+    const householdTotal = singleTotalSum + ordinaryTotalSum;
+    const ordinaryPercentage = ordinaryTotalSum / householdTotal;
+    const singlePercentage = singleTotalSum / householdTotal;
 
     setColumnOptions((columnOptions) => {
       return {
@@ -77,6 +140,28 @@ const Chart = () => {
           {
             name: '女性',
             data: [ordinaryFemaleSum, singleFemaleSum],
+          },
+        ],
+      };
+    });
+
+    setPieOptions((pieOptions) => {
+      return {
+        ...pieOptions,
+        series: [
+          {
+            name: '比例',
+            colorByPoint: true,
+            data: [
+              {
+                name: '獨立居住',
+                y: ordinaryPercentage,
+              },
+              {
+                name: '共同生活',
+                y: singlePercentage,
+              },
+            ],
           },
         ],
       };
@@ -146,6 +231,7 @@ const Chart = () => {
     <>
       <h2>{`${year} 年 ${country} ${town}`}</h2>
       <HighchartsReact highcharts={Highcharts} options={columnOptions} />
+      <HighchartsReact highcharts={Highcharts} options={pieOptions} />
     </>
   );
 };
