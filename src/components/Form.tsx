@@ -35,7 +35,6 @@ const Form = ({ isLoading }: { isLoading: boolean }) => {
 
   const handleSubmit = () => {
     const { year, country, town } = formData;
-
     navigate(`${year}/${country}/${town}`);
   };
 
@@ -46,7 +45,7 @@ const Form = ({ isLoading }: { isLoading: boolean }) => {
 
   return (
     <>
-      <h1>人口數、戶數按戶別及性別統計</h1>
+      <h2>人口數、戶數按戶別及性別統計</h2>
       <form>
         <Autocomplete
           disablePortal

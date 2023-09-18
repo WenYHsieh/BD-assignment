@@ -25,7 +25,7 @@
   }
 
   .sideLogo {
-    width: 90vh;
+    width: 93vh;
     height: 100px;
     font-size: 100px;
     font-weight: 900;
@@ -57,7 +57,8 @@
   }
 
   .dashboard {
-    max-height: 90vh;
+    max-height: 93vh;
+    height: 93vh;
     box-sizing: border-box;
     width: calc(100% - 100px);
     text-align: center;
@@ -65,7 +66,6 @@
     left: 100px;
     padding: 0 48px;
     overflow-y: scroll;
-    // border: 1px solid red;
 
     form {
       width: 100%;
@@ -85,6 +85,7 @@
       width: 100%;
       left: 0;
       z-index: 100;
+      padding: 0 16px;
 
       form {
         flex-direction: column;

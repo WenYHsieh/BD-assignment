@@ -6,11 +6,6 @@ import HighchartsReact from 'highcharts-react-official';
 import { useLoading } from '../App';
 
 const Chart = () => {
-  /**
-   * TODO
-
-   * 5. api call data type check, error handling
-   */
   const baseURL = `https://www.ris.gov.tw/rs-opendata/api/v1/datastore/ODRP019`;
   let { year, country, town } = useParams();
   const { isLoading, setIsLoading } = useLoading();
@@ -100,13 +95,10 @@ const Chart = () => {
       },
     );
 
-    // column data
     let ordinaryFemaleSum = 0;
     let ordinaryMaleSum = 0;
     let singleFemaleSum = 0;
     let singleMaleSum = 0;
-
-    // pie data
     let singleTotalSum = 0;
     let ordinaryTotalSum = 0;
 
@@ -181,15 +173,16 @@ const Chart = () => {
       const pageNums = Array.from({ length: allPageNum }, (_, i) => i + 1);
 
       try {
-        const responses = await axios.all(
+        const responses = await Promise.all(
           pageNums.map((pageNum) =>
             axios.get(`${baseURL}/${year}?page=${pageNum}`),
           ),
         );
 
         let yearData: Array<{ [key: string]: string }> = [];
-        responses?.forEach(({ data }) => {
-          const { responseData } = data;
+        for (const { data } of responses) {
+          const { responseData = [] } = data;
+          if (responseData.length === 0) continue;
 
           yearData = yearData.concat(
             responseData?.map((item: { [key: string]: string }) => {
@@ -217,14 +210,16 @@ const Chart = () => {
               };
             }),
           );
-        }),
-          setChartData({
-            ...chartData,
-            [year as string]: yearData,
-          });
+        }
+
+        setChartData({
+          ...chartData,
+          [year as string]: yearData,
+        });
         filterMatchData(yearData);
       } catch (error) {
         console.error(error);
+        alert('Error occurred while fetching data. Please try again later.');
       } finally {
         setIsLoading(false);
       }
@@ -232,14 +227,13 @@ const Chart = () => {
 
     chartData[year] ? filterMatchData(chartData[year]) : getDataByYear();
   }, [year, country, town]);
-
   return (
     <>
       {isLoading ? (
         <></>
       ) : (
         <>
-          <h2>{`${year} 年 ${country} ${town}`}</h2>
+          <h3>{`${year} 年 ${country} ${town}`}</h3>
           <HighchartsReact highcharts={Highcharts} options={columnOptions} />
           <HighchartsReact highcharts={Highcharts} options={pieOptions} />
         </>
