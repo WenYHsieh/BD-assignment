@@ -52,7 +52,11 @@ const Form = ({ isLoading }: { isLoading: boolean }) => {
           disablePortal
           id='year'
           options={yearOptions}
-          sx={{ width: 100, marginRight: '16px' }}
+          sx={{
+            width: 100,
+            marginRight: '16px',
+            mb: { xs: '16px', sm: 0 },
+          }}
           value={formData?.year}
           onChange={(_, value) =>
             setFormData((formData) => {
@@ -74,8 +78,9 @@ const Form = ({ isLoading }: { isLoading: boolean }) => {
           id='country'
           options={countryOptions}
           sx={{
-            width: 200,
+            width: { xs: '100%', sm: '200px' },
             marginRight: '16px',
+            mb: { xs: '16px', sm: 0 },
           }}
           value={formData?.country}
           onChange={(_, value) =>
@@ -97,7 +102,11 @@ const Form = ({ isLoading }: { isLoading: boolean }) => {
           disablePortal
           id='town'
           options={townOptions}
-          sx={{ width: 200, marginRight: '16px' }}
+          sx={{
+            width: { xs: '100%', sm: '200px' },
+            marginRight: '16px',
+            mb: { xs: '16px', sm: 0 },
+          }}
           value={formData?.town}
           onChange={(_, value) =>
             setFormData((formData) => {

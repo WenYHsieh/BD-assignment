@@ -15,16 +15,15 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
     animation: spin 2s linear infinite;
   }
 }
 
 @keyframes spin {
   0% {
-    transform: rotate(0deg);
+    transform: translateX(-50%) translateY(-50%) rotate(0deg);
   }
   100% {
-    transform: rotate(360deg);
+    transform: translateX(-50%) translateY(-50%) rotate(360deg);
   }
 }

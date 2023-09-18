@@ -65,11 +65,30 @@
     left: 100px;
     padding: 0 48px;
     overflow-y: scroll;
+    // border: 1px solid red;
 
     form {
       width: 100%;
       display: flex;
       justify-content: center;
+    }
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .app__wrapper {
+    .sideLogo {
+      opacity: 0.3;
+    }
+
+    .dashboard {
+      width: 100%;
+      left: 0;
+      z-index: 100;
+
+      form {
+        flex-direction: column;
+      }
     }
   }
 }

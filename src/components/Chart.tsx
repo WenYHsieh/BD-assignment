@@ -8,8 +8,7 @@ import { useLoading } from '../App';
 const Chart = () => {
   /**
    * TODO
-   * 3. rwd
-   * 4. component styling
+
    * 5. api call data type check, error handling
    */
   const baseURL = `https://www.ris.gov.tw/rs-opendata/api/v1/datastore/ODRP019`;
@@ -54,7 +53,10 @@ const Chart = () => {
         },
       },
     },
-    series: [],
+    series: [] as Array<{
+      name: string;
+      data: Array<number>;
+    }>,
   });
 
   const [pieOptions, setPieOptions] = useState({
@@ -84,7 +86,11 @@ const Chart = () => {
         showInLegend: true,
       },
     },
-    series: [],
+    series: [] as Array<{
+      name: string;
+      colorByPoint: boolean;
+      data: Array<{ name: string; y: number }>;
+    }>,
   });
 
   const filterMatchData = (yearData: Array<{ [key: string]: string }>) => {
