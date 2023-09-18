@@ -35,7 +35,7 @@ const Form = ({ isLoading }: { isLoading: boolean }) => {
 
   const handleSubmit = () => {
     const { year, country, town } = formData;
-    navigate(`${year}/${country}/${town}`);
+    navigate(`/${year}/${country}/${town}`);
   };
 
   useEffect(() => {
